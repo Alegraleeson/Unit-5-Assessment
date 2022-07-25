@@ -256,18 +256,18 @@ module.exports = {
     },
 
     getCities: (req, res) => {
-        sequelize.query(`SELECT city.city_id, city.name AS city, city.rating, country.country_id, country.name AS country
-        FROM cities city
-        JOIN countries country ON country.country_id = city.country_id
+        sequelize.query(`SELECT a.city_id, a.name AS city, a.rating, b.country_id, b.name AS country
+        FROM cities a
+        JOIN countries b ON b.country_id = a.country_id
         ORDER BY rating DESC;`)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err))
     },
 
     deleteCity: (req, res) => {
-        const {cityId} = req.body;
+        const {id} = req.params;
         sequelize.query(`DELETE FROM cities
-        WHERE city_id = ${cityId}
+        WHERE city_id = ${id}
         `)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err))
